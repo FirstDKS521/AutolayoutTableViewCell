@@ -1,26 +1,25 @@
 //
-//  RootViewController.m
+//  FirstViewController.m
 //  AutolayoutTableViewCell
 //
-//  Created by aDu on 2017/1/21.
+//  Created by aDu on 2017/3/15.
 //  Copyright © 2017年 DuKaiShun. All rights reserved.
 //
 
-#import "RootViewController.h"
 #import "FirstViewController.h"
-#import "RootCell.h"
-#import "RootModel.h"
+#import "FirstCell.h"
+#import "FirstModel.h"
 
 #define K_Cell @"cell"
-@interface RootViewController ()
+@interface FirstViewController ()
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) RootCell *tempCell;
+@property (nonatomic, strong) FirstCell *tempCell;
 
 @end
 
-@implementation RootViewController
+@implementation FirstViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,14 +27,20 @@
     self.navigationController.navigationBar.translucent = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    for (int i = 0; i < 20; i++) {
-        RootModel *model = [[RootModel alloc] init];
-        model.timeStr = @"12:20";
-        model.detailStr = @"查看详情";
-        model.teger = arc4random() % 5 + 0;
+    [self.view addSubview:self.tableView];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    for (int i = 0; i < 1; i++) {
+        FirstModel *model = [[FirstModel alloc] init];
+        model.name = @"测试数据";
+        model.remark = @"开始大陆架卡拉胶大打卡机打开俺肯定就啊卡机的看开始大陆架卡拉胶大打卡机打开俺肯定就啊卡机的看";
+        model.subscribe = YES;
         [self.dataArray addObject:model];
     }
-    [self.view addSubview:self.tableView];
+    [self.tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -45,7 +50,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RootModel *model = self.dataArray[indexPath.row];
+    FirstModel *model = self.dataArray[indexPath.row];
     if (model.cellHeight == 0) {
         CGFloat cellHeight = [self.tempCell cellHeight:model];
         model.cellHeight = cellHeight;
@@ -57,27 +62,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RootCell *cell = [tableView dequeueReusableCellWithIdentifier:K_Cell forIndexPath:indexPath];
+    FirstCell *cell = [tableView dequeueReusableCellWithIdentifier:K_Cell forIndexPath:indexPath];
     [cell setModel:self.dataArray[indexPath.row]];
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    FirstViewController *firstVC = [[FirstViewController alloc] init];
-    [self.navigationController pushViewController:firstVC animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    FirstViewController *firstVC = [[FirstViewController alloc] init];
+//    [self.navigationController pushViewController:firstVC animated:YES];
+//}
 
 - (UITableView *)tableView
 {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
-        [_tableView registerClass:[RootCell class] forCellReuseIdentifier:K_Cell];
+        [_tableView registerClass:[FirstCell class] forCellReuseIdentifier:K_Cell];
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = UITableViewAutomaticDimension;
-        self.tempCell = [[RootCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:K_Cell];
+        self.tempCell = [[FirstCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:K_Cell];
     }
     return _tableView;
 }
